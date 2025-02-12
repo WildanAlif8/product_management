@@ -47,7 +47,6 @@
             <button type="submit" class="btn btn-success">
                 <i class="fas fa-save"></i> Simpan Perubahan
             </button>
-            
             <a href="<?= site_url('product') ?>" class="btn btn-secondary">
                 <i class="fas fa-times"></i> Batal
             </a>
