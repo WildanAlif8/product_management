@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Manajemen Produk</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
     <style>
         body {
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
+            background: #f4f6f9;
         }
 
         .wrapper {
@@ -18,9 +18,11 @@
             min-height: 100vh;
         }
 
+        /* Sidebar */
         .sidebar {
             width: 250px;
             background: #343a40;
+            /* Warna abu-abu gelap untuk sidebar */
             color: white;
             height: 100vh;
             position: fixed;
@@ -29,18 +31,16 @@
 
         .sidebar-header {
             padding: 20px;
-            background: #2c3136;
+            background: #23272b;
+            /* Warna hitam sedikit lebih terang untuk header */
             text-align: center;
-        }
-
-        .sidebar-header h3 {
-            margin: 0;
             font-size: 1.5rem;
+            font-weight: bold;
         }
 
         .sidebar-menu {
-            padding: 0;
             list-style: none;
+            padding: 0;
         }
 
         .sidebar-menu a {
@@ -50,12 +50,38 @@
             display: flex;
             align-items: center;
             transition: all 0.3s ease;
+            font-size: 1.1rem;
         }
 
         .sidebar-menu a:hover {
             background: #495057;
+            /* Warna abu-abu lebih terang saat hover */
             padding-left: 25px;
         }
+
+        .sidebar-menu a.active {
+            background: #212529;
+            /* Warna hitam sangat gelap untuk item aktif */
+            color: #ffcc00;
+            /* Warna kuning untuk teks aktif */
+        }
+
+        /* Navbar */
+        .navbar {
+            padding: 15px 20px;
+            background: #ffffff;
+            border-bottom: 2px solid #dee2e6;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Navbar */
+        .navbar {
+            padding: 15px 20px;
+            background: #ffffff;
+            border-bottom: 2px solid #dee2e6;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
 
         .content {
             flex: 1;
@@ -64,27 +90,42 @@
             transition: all 0.3s ease;
         }
 
+        /* Navbar */
         .navbar {
             padding: 15px 20px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #dee2e6;
+            background: #ffffff;
+            border-bottom: 2px solid #dee2e6;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .navbar-brand {
+        /* Card styling */
+        .card {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: #333;
-        }
-
-        /* Card Styles */
-        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            cursor: pointer;
+            padding: 20px;
             margin-bottom: 20px;
+            border-radius: 10px;
         }
 
-        /* Mobile Sidebar */
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card i {
+            font-size: 3rem;
+            margin-right: 15px;
+            /* Jarak antara ikon dan teks */
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover i {
+            transform: scale(1.2);
+        }
+
         .toggle-btn {
             background: transparent;
             border: none;
@@ -94,11 +135,10 @@
             display: none;
         }
 
-        /* Responsive Design */
+        /* Responsive Sidebar */
         @media (max-width: 768px) {
             .sidebar {
                 position: fixed;
-                top: 0;
                 left: -250px;
                 transition: all 0.3s ease;
                 z-index: 999;
@@ -110,7 +150,6 @@
 
             .content {
                 margin-left: 0;
-                padding-top: 60px;
             }
 
             .toggle-btn {
@@ -121,17 +160,30 @@
                 z-index: 1001;
             }
         }
+
+        /* Enhancing the card text */
+        .card .card-body {
+            flex-grow: 1;
+        }
+
+        .card .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .card .card-text {
+            font-size: 1rem;
+        }
     </style>
 </head>
+
 <body>
     <div class="wrapper">
         <nav class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-            <h3><i class="fas fa-tachometer-alt"></i> Dashboard</h3>
-            </div>
+            <div class="sidebar-header"><i class="fas fa-tachometer-alt" style="margin-right: 14px;"></i>Dashboard</div>
             <ul class="sidebar-menu">
-                <li><a href="home"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="product"><i class="fas fa-chart-bar"></i> Data Produk</a></li>
+                <li><a href="home"><i class="fas fa-home"></i>&nbsp; Home</a></li>
+                <li><a href="product"><i class="fas fa-box"></i>&nbsp; Manajemen Produk</a></li>
             </ul>
         </nav>
 
@@ -143,87 +195,122 @@
             <nav class="navbar">
                 <div class="container-fluid">
                     <span class="navbar-brand">
-                        <i class="fas fa-store"></i>
-                        <span>Manajemen Produk</span>
+                        <i class="fas fa-store"></i> &nbsp; Manajemen Produk
                     </span>
                 </div>
             </nav>
 
-            <!-- Welcome Message -->
-            <div class="container mt-5">
-                <h1>Selamat datang di halaman Home!</h1>
-                <p>Ini adalah halaman utama dari aplikasi manajemen produk. Berikut adalah beberapa statistik cepat dan grafik untuk memudahkan pengelolaan data produk.</p>
-            </div>
-
-            <!-- Quick Stats and Cards -->
-            <div class="container">
+            <!-- Quick Stats Cards -->
+            <div class="container mt-4">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card text-white bg-primary">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Produk</h5>
-                                <p class="card-text">102 Produk Tersedia</p>
+                            <div class="card-body d-flex">
+                                <i class="fas fa-box" style="margin-right: 10px; margin-top: 5px;"></i>
+                                <div>
+                                    <h5 class="card-title">Total Produk</h5>
+                                    <p class="card-text"><?= $product_stats['dijual'] + $product_stats['tidak_dijual']; ?> Produk</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card text-white bg-success">
-                            <div class="card-body">
-                                <h5 class="card-title">Produk Dijual</h5>
-                                <p class="card-text">75 Produk Terjual</p>
+                            <div class="card-body d-flex">
+                                <i class="fas fa-shopping-cart" style="margin-right: 10px; margin-top: 5px;"></i>
+                                <div>
+                                    <h5 class="card-title">Produk Dijual</h5>
+                                    <p class="card-text"><?= $product_stats['dijual']; ?> Produk Dijual</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card text-white bg-danger">
-                            <div class="card-body">
-                                <h5 class="card-title">Produk Tidak Dijual</h5>
-                                <p class="card-text">27 Produk Tidak Dijual</p>
+                            <div class="card-body d-flex">
+                                <i class="fas fa-ban" style="margin-right: 10px; margin-top: 5px;"></i>
+                                <div>
+                                    <h5 class="card-title">Produk Tidak Dijual</h5>
+                                    <p class="card-text"><?= $product_stats['tidak_dijual']; ?> Produk Tidak Dijual</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Chart for Product Stats -->
+            <!-- Chart Section -->
             <div class="container mt-4">
-                <h3>Grafik Penjualan Produk</h3>
+                <h3>Grafik Status Produk</h3>
                 <canvas id="productChart"></canvas>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
     <script>
-        // Sidebar toggle functionality
         document.getElementById('sidebarToggle').addEventListener('click', function() {
             document.getElementById('sidebar').classList.toggle('active');
         });
 
-        // Chart.js for the product stats
+        var productStats = <?= json_encode($product_stats); ?>;
+
         const ctx = document.getElementById('productChart').getContext('2d');
-        const productChart = new Chart(ctx, {
+
+        let productChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Produk Dijual', 'Produk Tidak Dijual'],
+                labels: ['Dijual', 'Tidak Dijual'],
                 datasets: [{
                     label: 'Jumlah Produk',
-                    data: [75, 27],
+                    data: [productStats.dijual, productStats.tidak_dijual],
                     backgroundColor: ['#28a745', '#dc3545'],
                     borderColor: ['#28a745', '#dc3545'],
-                    borderWidth: 1
+                    borderWidth: 1,
                 }]
             },
             options: {
                 responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.raw + ' Produk';
+                            }
+                        }
+                    }
+                },
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                },
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        let index = elements[0].index;
+
+                        // Sembunyikan atau tampilkan bar yang diklik
+                        if (index === 0) { // Dijual
+                            productChart.data.datasets[0].data[1] = productStats.tidak_dijual; // Tampilkan 'Tidak Dijual'
+                            productChart.data.datasets[0].data[0] = 0; // Sembunyikan 'Dijual'
+                        } else if (index === 1) { // Tidak Dijual
+                            productChart.data.datasets[0].data[0] = productStats.dijual; // Tampilkan 'Dijual'
+                            productChart.data.datasets[0].data[1] = 0; // Sembunyikan 'Tidak Dijual'
+                        }
+
+                        // Update chart
+                        productChart.update();
                     }
                 }
+
             }
         });
     </script>
 </body>
+
 </html>

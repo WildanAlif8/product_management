@@ -4,10 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Product extends CI_Controller {
     public function __construct() {
         parent::__construct();
+        $this->load->library('session');
         $this->load->model('Product_model');
         $this->load->helper(array('form', 'url'));
         $this->load->library('form_validation');
-        $this->load->library('session'); // Tambahkan session untuk flashdata
     }
 
     public function index() {
@@ -42,8 +42,8 @@ class Product extends CI_Controller {
                 'text' => validation_errors()
             ]);
             redirect('product');
+            $this->load->view('product/create');
         } else {
-            // Menyimpan data produk ke database
             $data = [
                 'name' => $this->input->post('name', TRUE),
                 'price' => $this->input->post('price', TRUE),
@@ -62,8 +62,16 @@ class Product extends CI_Controller {
         }
     }
 
+
+    public function edit($id) {
+        // Mengambil data produk berdasarkan ID untuk diubah
+        $data['product'] = $this->Product_model->get_product_by_id($id);
+        if (!$data['product']) show_404(); // Jika produk tidak ditemukan, tampilkan error 404
+        // Menampilkan form untuk mengedit produk
+        $this->load->view('product/edit', $data);
+    }
+
     public function update($id) {
-        // Pastikan produk ada
         $product = $this->Product_model->get_product_by_id($id);
         if (!$product) {
             $this->session->set_flashdata('message', [
@@ -73,33 +81,44 @@ class Product extends CI_Controller {
             redirect('product');
         }
 
+        // Menetapkan aturan validasi untuk form edit produk
         $this->form_validation->set_rules('name', 'Nama Produk', 'required');
         $this->form_validation->set_rules('price', 'Harga', 'required|numeric');
         $this->form_validation->set_rules('stock', 'Stok', 'required|integer');
-        $this->form_validation->set_rules('is_sell', 'Status Produk', 'required|in_list[0,1]');
+        $this->form_validation->set_rules('status', 'Status Produk', 'required|in_list[Dijual,Tidak Dijual]');
 
         if ($this->form_validation->run() == FALSE) {
-            // Jika validasi gagal, kembali ke halaman edit dengan error
+            // Jika validasi gagal, tampilkan form edit dengan data yang sudah ada
+            $data['product'] = $this->Product_model->get_product_by_id($id);
+            if (!$data['product']) show_404(); // Jika produk tidak ditemukan, tampilkan error 404
+            $this->load->view('product/edit', $data);
+        } else {
+            // Menyimpan perubahan produk
+            $data = [
+                'name' => $this->input->post('name', TRUE),
+                'price' => $this->input->post('price', TRUE),
+                'stock' => $this->input->post('stock', TRUE),
+                'is_sell' => $this->input->post('is_sell') // 0 atau 1
+            ];
+             $this->session->set_flashdata('message', [
+                'type' => 'danger',
+                'text' => validation_errors()
+            ]);
+            redirect('product');
+             $this->session->set_flashdata('message', [
+                'type' => 'danger',
+                'text' => validation_errors()
+            ]);
+            redirect('product');
+
             $this->session->set_flashdata('message', [
                 'type' => 'danger',
                 'text' => validation_errors()
             ]);
             redirect('product');
-        } else {
-            $data = [
-                'name' => $this->input->post('name', TRUE),
-                'price' => $this->input->post('price', TRUE),
-                'stock' => $this->input->post('stock', TRUE),
-                'is_sell' => $this->input->post('is_sell')
-            ];
+
             $this->Product_model->update_product($id, $data);
-
-            // Set flashdata untuk SweetAlert2
-            $this->session->set_flashdata('message', [
-                'type' => 'success',
-                'text' => 'Produk berhasil diperbarui!'
-            ]);
-
+            // Setelah data diperbarui, arahkan kembali ke halaman produk
             redirect('product');
         }
     }
@@ -124,4 +143,5 @@ class Product extends CI_Controller {
 
         redirect('product');
     }
+
 }

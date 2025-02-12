@@ -158,8 +158,8 @@ di bales kie doang ku gpt
         $('#productTable').DataTable({
             "language": {
                 "search": "Cari:",
-                "lengthMenu": "Tampilkan _MENU_ data",
-                "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                "lengthMenu": "Tampilkan MENU data",
+                "info": "Menampilkan START sampai END dari TOTAL data",
                 "paginate": {
                     "first": "Pertama",
                     "last": "Terakhir",
