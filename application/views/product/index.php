@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,36 +24,29 @@
             min-height: 100vh;
         }
 
+        /* Sidebar */
         .sidebar {
             width: 250px;
             background: #343a40;
+            /* Warna abu-abu gelap untuk sidebar */
             color: white;
-            transition: all 0.3s ease;
-            z-index: 1000;
             height: 100vh;
             position: fixed;
+            transition: all 0.3s ease;
         }
 
         .sidebar-header {
             padding: 20px;
-            background: #2c3136;
-        }
-
-        .sidebar-header h3 {
-            margin: 0;
+            background: #23272b;
+            /* Warna hitam sedikit lebih terang untuk header */
+            text-align: center;
             font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sidebar-header h3 i {
-            font-size: 1.4rem;
+            font-weight: bold;
         }
 
         .sidebar-menu {
-            padding: 0;
             list-style: none;
+            padding: 0;
         }
 
         .sidebar-menu a {
@@ -62,18 +56,31 @@
             display: flex;
             align-items: center;
             transition: all 0.3s ease;
+            font-size: 1.1rem;
         }
 
         .sidebar-menu a:hover {
             background: #495057;
+            /* Warna abu-abu lebih terang saat hover */
             padding-left: 25px;
         }
 
-        .sidebar-menu i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
+        .sidebar-menu a.active {
+            background: #212529;
+            /* Warna hitam sangat gelap untuk item aktif */
+            color: #ffcc00;
+            /* Warna kuning untuk teks aktif */
         }
+
+        /* Navbar */
+        .navbar {
+            padding: 15px 20px;
+            background: #ffffff;
+            border-bottom: 2px solid #dee2e6;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+
 
         .content {
             flex: 1;
@@ -158,7 +165,7 @@
                 z-index: 999;
                 padding: 15px;
                 background: #f8f9fa;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
 
             .navbar-brand {
@@ -222,7 +229,7 @@
             <button class="btn btn-primary mb-3" onclick="showAddProductModal()">
                 <i class="fas fa-plus"></i> Tambah Produk
             </button>
-            
+
             <table id="productTable" class="table table-bordered display">
                 <thead>
                     <tr>
@@ -350,11 +357,11 @@
         // Edit Product with AJAX
         function editProduct(productId) {
             $.ajax({
-                url: '<?= site_url('product/edit/') ?>' + productId, 
+                url: '<?= site_url('product/edit/') ?>' + productId,
                 method: 'GET',
                 success: function(response) {
-                    $('#editProductForm').html(response); 
-                    $('#editProductModal').modal('show'); 
+                    $('#editProductForm').html(response);
+                    $('#editProductModal').modal('show');
                 },
                 error: function() {
                     alert('Terjadi kesalahan saat memuat data produk.');
@@ -380,4 +387,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
