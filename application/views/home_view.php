@@ -183,7 +183,7 @@
             <div class="sidebar-header"><i class="fas fa-tachometer-alt" style="margin-right: 14px;"></i>Dashboard</div>
             <ul class="sidebar-menu">
                 <li><a href="home"><i class="fas fa-home"></i>&nbsp; Home</a></li>
-                <li><a href="product"><i class="fas fa-box"></i>&nbsp; Data Produk</a></li>
+                <li><a href="product"><i class="fas fa-box"></i>&nbsp; Manajemen Produk</a></li>
             </ul>
         </nav>
 

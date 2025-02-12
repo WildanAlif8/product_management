@@ -203,7 +203,7 @@
             </div>
             <ul class="sidebar-menu">
                 <li><a href="home"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="product"><i class="fas fa-chart-bar"></i> Data Produk</a></li>
+                <li><a href="product"><i class="fas fa-chart-bar"></i> Manajemen Produk</a></li>
             </ul>
         </nav>
 
