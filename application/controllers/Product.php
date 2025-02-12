@@ -21,6 +21,9 @@ class Product extends CI_Controller {
         $data['sort_by'] = $sort_by;
         $data['sort_order'] = $sort_order;
 
+        // Flashdata untuk notifikasi
+        $data['message'] = $this->session->flashdata('message');
+
         // Menampilkan view produk
         $this->load->view('product/index', $data);
     }
@@ -38,6 +41,12 @@ class Product extends CI_Controller {
         $this->form_validation->set_rules('is_sell', 'Status Produk', 'required|in_list[0,1]');
 
         if ($this->form_validation->run() == FALSE) {
+            // Jika validasi gagal, kembalikan ke halaman tambah dengan error
+            $this->session->set_flashdata('message', [
+                'type' => 'danger',
+                'text' => validation_errors()
+            ]);
+            redirect('product');
             $this->load->view('product/create');
         } else {
             $data = [
@@ -47,6 +56,13 @@ class Product extends CI_Controller {
                 'is_sell' => $this->input->post('is_sell') 
             ];
             $this->Product_model->insert_product($data);
+
+             // Set flashdata untuk SweetAlert2
+             $this->session->set_flashdata('message', [
+                'type' => 'success',
+                'text' => 'Produk berhasil ditambahkan!'
+            ]);
+
             redirect('product');
         }
     }
@@ -88,9 +104,25 @@ class Product extends CI_Controller {
         }
     }
 
+    
     public function delete($id) {
-        if (!$this->Product_model->get_product_by_id($id)) show_404();
+        // Cek apakah produk ada sebelum menghapus
+        if (!$this->Product_model->get_product_by_id($id)) {
+            $this->session->set_flashdata('message', [
+                'type' => 'danger',
+                'text' => 'Produk tidak ditemukan!'
+            ]);
+            redirect('product');
+        }
+
         $this->Product_model->delete_product($id);
+
+        // Set flashdata untuk SweetAlert2
+        $this->session->set_flashdata('message', [
+            'type' => 'success',
+            'text' => 'Produk berhasil dihapus!'
+        ]);
+
         redirect('product');
     }
 }

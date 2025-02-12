@@ -4,23 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Produk</title>
+    
+    <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
 </head>
 <body>
     <div class="container mt-4">
         <h2>Edit Produk</h2>
 
         <?php if ($this->session->flashdata('success')): ?>
-            <div class="alert alert-success">
-                <?= $this->session->flashdata('success') ?>
-            </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: '<?= $this->session->flashdata('success') ?>',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            });
+        </script>
         <?php elseif ($this->session->flashdata('error')): ?>
-            <div class="alert alert-danger">
-                <?= $this->session->flashdata('error') ?>
-            </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: '<?= $this->session->flashdata('error') ?>',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            });
+        </script>
         <?php endif; ?>
 
-        <form action="<?= site_url('product/update/'.$product->id) ?>" method="post">
+        <form action="<?= site_url('product/update/'.$product->id) ?>" method="post" id="editForm">
             <div class="mb-3">
                 <label for="name" class="form-label">Nama Produk</label>
                 <input type="text" class="form-control" id="name" name="name" value="<?= $product->name ?>" required>
@@ -50,13 +75,76 @@
             <a href="<?= site_url('product') ?>" class="btn btn-secondary">
                 <i class="fas fa-times"></i> Batal
             </a>
-
-            <a href="<?= site_url('product/delete/'.$product->id) ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?');">
+            <button type="button" class="btn btn-danger" onclick="confirmDelete()">
                 <i class="fas fa-trash"></i> Hapus Produk
-            </a>
+            </button>
         </form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Konfirmasi dan submit form dengan AJAX
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = this;
+
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: "Apakah Anda yakin ingin menyimpan perubahan?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, simpan!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Menggunakan AJAX untuk submit form
+                    $.ajax({
+                        url: form.action,
+                        method: 'POST',
+                        data: $(form).serialize(),
+                        success: function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: 'Perubahan berhasil disimpan',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                // Redirect ke halaman produk
+                                window.location.href = '<?= site_url('product') ?>';
+                            });
+                        },
+                        error: function() {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Terjadi kesalahan saat menyimpan perubahan',
+                                showConfirmButton: true
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+        // Konfirmasi hapus produk
+        function confirmDelete() {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Produk yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '<?= site_url('product/delete/'.$product->id) ?>';
+                }
+            });
+        }
+    </script>
 </body>
 </html>

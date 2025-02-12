@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Manajemen Produk</title>
 
+    <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+
+    <!-- JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+
     <style>
         body {
             min-height: 100vh;
@@ -23,59 +30,50 @@
             min-height: 100vh;
         }
 
-/* Sidebar */
-.sidebar {
-    width: 250px;
-    background: #343a40; /* Warna abu-abu gelap untuk sidebar */
-    color: white;
-    height: 100vh;
-    position: fixed;
-    transition: all 0.3s ease;
-}
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #343a40;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            transition: all 0.3s ease;
+        }
 
-.sidebar-header {
-    padding: 20px;
-    background: #23272b; /* Warna hitam sedikit lebih terang untuk header */
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
+        .sidebar-header {
+            padding: 20px;
+            background: #23272b;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
 
-.sidebar-menu {
-    list-style: none;
-    padding: 0;
-}
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+        }
 
-.sidebar-menu a {
-    color: white;
-    text-decoration: none;
-    padding: 15px 20px;
-    display: flex;
-    align-items: center;
-    transition: all 0.3s ease;
-    font-size: 1.1rem;
-}
+        .sidebar-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
 
-.sidebar-menu a:hover {
-    background: #495057; /* Warna abu-abu lebih terang saat hover */
-    padding-left: 25px;
-}
+        .sidebar-menu a:hover {
+            background: #495057;
+            padding-left: 25px;
+        }
 
-.sidebar-menu a.active {
-    background: #212529; /* Warna hitam sangat gelap untuk item aktif */
-    color: #ffcc00; /* Warna kuning untuk teks aktif */
-}
+        .sidebar-menu a.active {
+            background: #212529;
+            color: #ffcc00;
+        }
 
-/* Navbar */
-.navbar {
-    padding: 15px 20px;
-    background: #ffffff;
-    border-bottom: 2px solid #dee2e6;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-
-
+        /* Content */
         .content {
             flex: 1;
             padding: 20px;
@@ -83,10 +81,12 @@
             transition: all 0.3s ease;
         }
 
+        /* Navbar */
         .navbar {
             padding: 15px 20px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #dee2e6;
+            background: #ffffff;
+            border-bottom: 2px solid #dee2e6;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .navbar-brand {
@@ -157,9 +157,6 @@
                 left: 0;
                 right: 0;
                 z-index: 999;
-                padding: 15px;
-                background: #f8f9fa;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             }
 
             .navbar-brand {
@@ -181,7 +178,6 @@
                 display: block;
             }
 
-            /* Handle DataTables responsiveness */
             .dataTables_wrapper {
                 overflow-x: auto;
             }
@@ -197,7 +193,7 @@
             </div>
             <ul class="sidebar-menu">
                 <li><a href="home"><i class="fas fa-home" style="margin-right: 5px;"></i> Home</a></li>
-                <li><a href="product"><i class="fas fa-chart-bar" style="margin-right: 5px;"></i> Manajemen Produk</a></li>
+                <li><a href="product" class="active"><i class="fas fa-chart-bar" style="margin-right: 5px;"></i> Manajemen Produk</a></li>
             </ul>
         </nav>
 
@@ -219,11 +215,31 @@
                 </div>
             </nav>
 
-            <h2>Daftar Produk</h2>
-            <button class="btn btn-primary mb-3" onclick="showAddProductModal()">
-                <i class="fas fa-plus"></i> Tambah Produk
-            </button>
-            
+            <!-- Flash Message -->
+            <?php if ($this->session->flashdata('message')): ?>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: "<?= $this->session->flashdata('message')['type'] ?>",
+                        title: "<?= $this->session->flashdata('message')['text'] ?>",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                });
+            </script>
+            <?php endif; ?>
+
+            <div class="product-header">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-dark mb-0">Daftar Produk</h2>
+        </div>
+        <button class="btn btn-primary d-flex align-items-center gap-2 rounded-3 px-4" onclick="showAddProductModal()">
+            <i class="fas fa-plus"></i>
+            <span>Tambah Produk</span>
+        </button>
+    </div>
+
             <table id="productTable" class="table table-bordered display">
                 <thead>
                     <tr>
@@ -236,26 +252,26 @@
                 </thead>
                 <tbody>
                     <?php foreach ($products as $product): ?>
-                        <tr>
-                            <td><?= $product->name ?></td>
-                            <td>Rp<?= number_format($product->price, 0, ',', '.') ?></td>
-                            <td><?= $product->stock ?></td>
-                            <td>
-                                <?php if ($product->is_sell): ?>
-                                    <span class="badge bg-success">Dijual</span>
-                                <?php else: ?>
-                                    <span class="badge bg-danger">Tidak Dijual</span>
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <button class="btn btn-warning btn-sm" onclick="editProduct(<?= $product->id ?>)">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <a href="#" class="btn btn-danger btn-sm" onclick="confirmDelete(<?= $product->id ?>)">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td><?= $product->name ?></td>
+                        <td>Rp<?= number_format($product->price, 0, ',', '.') ?></td>
+                        <td><?= $product->stock ?></td>
+                        <td>
+                            <?php if ($product->is_sell): ?>
+                            <span class="badge bg-success">Dijual</span>
+                            <?php else: ?>
+                            <span class="badge bg-danger">Tidak Dijual</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editProduct(<?= $product->id ?>)">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="confirmDelete(<?= $product->id ?>)">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </td>
+                    </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -348,26 +364,41 @@
             $('#addProductModal').modal('show');
         }
 
-        // Edit Product with AJAX
+        // Edit Product Function
         function editProduct(productId) {
             $.ajax({
-                url: '<?= site_url('product/edit/') ?>' + productId, 
+                url: '<?= site_url('product/edit/') ?>' + productId,
                 method: 'GET',
                 success: function(response) {
-                    $('#editProductForm').html(response); 
-                    $('#editProductModal').modal('show'); 
+                    $('#editProductForm').html(response);
+                    $('#editProductModal').modal('show');
                 },
                 error: function() {
-                    alert('Terjadi kesalahan saat memuat data produk.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Terjadi kesalahan saat memuat data produk!'
+                    });
                 }
             });
         }
 
-        // Confirm Delete Product
+        // Confirm Delete Function
         function confirmDelete(productId) {
-            if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
-                window.location.href = '<?= site_url('product/delete/') ?>' + productId;
-            }
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data produk ini akan dihapus!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '<?= site_url('product/delete/') ?>' + productId;
+                }
+            });
         }
 
         // Handle window resize
@@ -378,7 +409,5 @@
             }
         });
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
