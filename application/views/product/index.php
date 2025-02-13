@@ -192,7 +192,7 @@
                 <h3><i class="fas fa-tachometer-alt"></i> Dashboard</h3>
             </div>
             <ul class="sidebar-menu">
-                <li><a href="home"><i class="fas fa-home" style="margin-right: 5px;"></i> Home</a></li>
+                <li><a href="home" class="activ"><i class="fas fa-home" style="margin-right: 5px;"></i> Home</a></li>
                 <li><a href="product" class="active"><i class="fas fa-chart-bar" style="margin-right: 5px;"></i> Manajemen Produk</a></li>
             </ul>
         </nav>

@@ -61,10 +61,9 @@
 
         .sidebar-menu a.active {
             background: #212529;
-            /* Warna hitam sangat gelap untuk item aktif */
             color: #ffcc00;
-            /* Warna kuning untuk teks aktif */
         }
+
 
         /* Navbar */
         .navbar {
@@ -182,8 +181,8 @@
         <nav class="sidebar" id="sidebar">
             <div class="sidebar-header"><i class="fas fa-tachometer-alt" style="margin-right: 14px;"></i>Dashboard</div>
             <ul class="sidebar-menu">
-                <li><a href="home"><i class="fas fa-home"></i>&nbsp; Home</a></li>
-                <li><a href="product"><i class="fas fa-box"></i>&nbsp; Manajemen Produk</a></li>
+                <li><a href="home" class="active"><i class="fas fa-home"></i>&nbsp; Home</a></li>
+                <li><a href="product"><i class="fas fa-chart-bar" style="margin-right: 5px;"></i> Manajemen Produk</a></li>
             </ul>
         </nav>
 
