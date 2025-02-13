@@ -75,11 +75,12 @@ $query_builder = TRUE;
 
 $db['default'] = array(
     'dsn'   => '',
-    'hostname' => 'localhost',
+    'hostname' => '127.0.0.1',
     'username' => 'root',
     'password' => '',
     'database' => 'product_management',
     'dbdriver' => 'mysqli',
+    'port'     => 3307,
     'dbprefix' => '',
     'pconnect' => FALSE,
     'db_debug' => (ENVIRONMENT !== 'production'),
@@ -94,4 +95,5 @@ $db['default'] = array(
     'failover' => array(),
     'save_queries' => TRUE
 );
+
 
