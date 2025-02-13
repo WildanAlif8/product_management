@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -184,6 +185,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="wrapper">
         <!-- Sidebar -->
@@ -217,28 +219,27 @@
 
             <!-- Flash Message -->
             <?php if ($this->session->flashdata('message')): ?>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    Swal.fire({
-                        icon: "<?= $this->session->flashdata('message')['type'] ?>",
-                        title: "<?= $this->session->flashdata('message')['text'] ?>",
-                        showConfirmButton: false,
-                        timer: 2000
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        Swal.fire({
+                            icon: "<?= $this->session->flashdata('message')['type'] ?>",
+                            title: "<?= $this->session->flashdata('message')['text'] ?>",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
                     });
-                });
-            </script>
+                </script>
             <?php endif; ?>
 
-            <div class="product-header">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="text-dark mb-0">Daftar Produk</h2>
-        </div>
-        <button class="btn btn-primary d-flex align-items-center gap-2 rounded-3 px-4" onclick="showAddProductModal()">
-            <i class="fas fa-plus"></i>
-            <span>Tambah Produk</span>
-        </button>
-    </div>
+            <div class="product-header text-center mb-4 mt-3">
+                <h2 class="text-dark mb-0">Daftar Produk</h2>
+                <div class="button-container mt-3">
+                    <button class="btn btn-primary d-flex align-items-center gap-2 rounded-3 px-4" style="margin-bottom: 5px;" onclick="showAddProductModal()">
+                        <i class="fas fa-plus"></i>
+                        <span>Tambah Produk</span>
+                    </button>
+                </div>
+            </div>
 
             <table id="productTable" class="table table-bordered display">
                 <thead>
@@ -252,26 +253,26 @@
                 </thead>
                 <tbody>
                     <?php foreach ($products as $product): ?>
-                    <tr>
-                        <td><?= $product->name ?></td>
-                        <td>Rp<?= number_format($product->price, 0, ',', '.') ?></td>
-                        <td><?= $product->stock ?></td>
-                        <td>
-                            <?php if ($product->is_sell): ?>
-                            <span class="badge bg-success">Dijual</span>
-                            <?php else: ?>
-                            <span class="badge bg-danger">Tidak Dijual</span>
-                            <?php endif; ?>
-                        </td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" onclick="editProduct(<?= $product->id ?>)">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="confirmDelete(<?= $product->id ?>)">
-                                <i class="fas fa-trash"></i> Hapus
-                            </button>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td><?= $product->name ?></td>
+                            <td>Rp<?= number_format($product->price, 0, ',', '.') ?></td>
+                            <td><?= $product->stock ?></td>
+                            <td>
+                                <?php if ($product->is_sell): ?>
+                                    <span class="badge bg-success">Dijual</span>
+                                <?php else: ?>
+                                    <span class="badge bg-danger">Tidak Dijual</span>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="editProduct(<?= $product->id ?>)">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="confirmDelete(<?= $product->id ?>)">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -410,4 +411,5 @@
         });
     </script>
 </body>
+
 </html>
